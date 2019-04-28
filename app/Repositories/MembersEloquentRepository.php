@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Member;
+use mysql_xdevapi\Exception;
 
 class MembersEloquentRepository implements MembersRepositoryInterface
 {
@@ -19,6 +20,7 @@ class MembersEloquentRepository implements MembersRepositoryInterface
 
     public function insert(string $name): void
     {
+        if ($name==='') throw new \Exception('Argument is empty.');
         $member = new Member;
         $member->name = $name;
         $member->save();
@@ -26,6 +28,7 @@ class MembersEloquentRepository implements MembersRepositoryInterface
 
     public function update(int $id, string $name): void
     {
+        if ($name==='') throw new \Exception('Argument $name is empty.');
         $member = Member::find($id);
         $member->name = $name;
         $member->save();
